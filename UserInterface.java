@@ -80,7 +80,7 @@ public class UserInterface {
 		comboBox.setSelectedIndex(-1);
 		comboBox.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
-				
+				//задаване на цена спрямо селектираната книга от списъка
 				if(comboBox.getSelectedIndex()!=-1) {
 					String[]bookInfoArr = String.valueOf(comboBox.getSelectedItem()).split(" - ");
 					String title = bookInfoArr[0];
@@ -103,7 +103,8 @@ public class UserInterface {
 		JCheckBox discountCheck = new JCheckBox("Use dicount code");
 		discountCheck.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
-				
+				//при натискане на check box-a за код за отстъпка се появява text field
+				//съответно при повторно натискане, този text field се скрива
 				discountCodeField.setVisible(true);
 				if(!discountCheck.isSelected()) {
 					discountCodeField.setVisible(false);
@@ -129,7 +130,7 @@ public class UserInterface {
 		addToCartButton.setBounds(21, 202, 164, 57);
 		addToCartButton.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
-				
+				//принтиране на текст за добавена книга към количката и увеличаване на сумата
 				String[]bookInfoArr = String.valueOf(comboBox.getSelectedItem()).split(" - ");
 				String title = bookInfoArr[0];
 				Book addedBook = bookStore.getBookByTitle(title);
@@ -145,13 +146,15 @@ public class UserInterface {
 		emptyCartButton.setBounds(21, 301, 164, 57);
 		emptyCartButton.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
-				
+				//изчистване на всички полета, зануляване на сумите и изпразване на списъка със закупени книги
 				comboBox.setSelectedIndex(-1);
 				discountCodeField.setText("");
 				priceLabel.setText("");
 				textArea.setText("");
 				discountCheck.setSelected(false);
 				discountCodeField.setVisible(false);
+				sum = 0;
+				boughtBooks = new ArrayList<>();
 				
 			}
 		});
@@ -163,7 +166,7 @@ public class UserInterface {
 		checkoutButton.setForeground(Color.RED);
 		checkoutButton.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
-				
+				//изкарване на списък със закупените книги
 				textArea.append("----------------------CHECKOUT----------------------\n");
 				int pos = 1;
 				for(Book b : boughtBooks) {
@@ -171,7 +174,7 @@ public class UserInterface {
 					pos++;
 				}
 				if(discountCheck.isSelected()) {
-					
+					//при използване на код за отстъпка се взимат последните 2 цифри от кода и се преобръщат в процент отстъпка
 					double discountPercentage = Double.parseDouble(discountCodeField.getText()
 							.substring(discountCodeField.getText().length()-2, discountCodeField.getText().length()));
 					
